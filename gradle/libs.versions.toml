@@ -8,6 +8,7 @@ material = "1.13.0"
 activity = "1.12.2"
 constraintlayout = "2.2.1"
 firebaseAuth = "24.0.1"
+playService = "21.4.0"
 nav_version = "2.9.7"
 
 [libraries]
@@ -19,7 +20,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "firebaseAuth" }
+play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playService" }
 navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "nav_version" }
 navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "nav_version" }
 
