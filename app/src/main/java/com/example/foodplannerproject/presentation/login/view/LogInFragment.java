@@ -90,8 +90,8 @@ private LoginPresenter loginPresenter;
                     .setTitle("Success 🎉")
                     .setMessage("Logged in successfully")
                     .setPositiveButton("Continue", (dialog, which) -> {
-//                        NavHostFragment.findNavController(this)
-//                                .navigate(R.id.action_signUpFragment_to_logInFragment);
+                        NavHostFragment.findNavController(this)
+                                .navigate(R.id.action_logInFragment_to_homeFragment);
                     })
                     .show();
         }
