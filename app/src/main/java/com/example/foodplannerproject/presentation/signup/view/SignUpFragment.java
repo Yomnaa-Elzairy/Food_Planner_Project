@@ -93,8 +93,8 @@ public class SignUpFragment extends Fragment implements SignupView{
                     .setTitle("Success 🎉")
                     .setMessage("Account created successfully")
                     .setPositiveButton("Continue", (dialog, which) -> {
-//                        NavHostFragment.findNavController(this)
-//                                .navigate(R.id.action_signUpFragment_to_logInFragment);
+                        NavHostFragment.findNavController(this)
+                                .navigate(R.id.action_signUpFragment_to_homeFragment);
                     })
                     .show();
         }
