@@ -1,6 +1,9 @@
 package com.example.foodplannerproject.presentation.signup.view;
 
 public interface SignupView {
-    public void OnSignupSuccess();
-    public void onSignupFailure(String errorMessage);
+    void showLoading();
+    void hideLoading();
+    void onSignUpSuccess();
+    void onSignUpFailure(String message);
+    void onNoInternet();
 }

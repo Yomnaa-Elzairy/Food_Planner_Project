@@ -47,6 +47,13 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.glide)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    val room_version = "2.8.4"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
 
 
 

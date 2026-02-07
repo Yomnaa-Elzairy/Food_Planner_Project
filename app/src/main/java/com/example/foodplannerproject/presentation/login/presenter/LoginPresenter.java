@@ -5,4 +5,6 @@ import com.example.foodplannerproject.data.auth.data_source.remote.AuthRemoteRes
 public interface LoginPresenter {
 
     public void login(String email, String password);
+    public boolean isUserLoggedin();
+    public void signout();
 }
