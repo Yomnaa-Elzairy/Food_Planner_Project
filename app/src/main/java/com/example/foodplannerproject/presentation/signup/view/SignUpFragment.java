@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.foodplannerproject.R;
@@ -33,6 +34,7 @@ public class SignUpFragment extends Fragment implements SignupView{
     EditText password;
     Button btnSignup;
     TextView loginLink;
+    private ProgressBar progressBar;
     private SignUpPresenter signUpPresenter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +45,9 @@ public class SignUpFragment extends Fragment implements SignupView{
          password = rootView.findViewById(R.id.password);
          btnSignup = rootView.findViewById(R.id.signup_btn);
          loginLink = rootView.findViewById(R.id.login_link);
-        signUpPresenter = new SignUpPresenterImp(this);
+        progressBar = rootView.findViewById(R.id.signup_progress);
+         signUpPresenter = new SignUpPresenterImp(this,requireContext());
+
 
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +70,7 @@ public class SignUpFragment extends Fragment implements SignupView{
         ClickableSpan clickableSpan =new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-
+                signUpPresenter.signout();
                 NavHostFragment.findNavController(SignUpFragment.this)
                         .navigate(R.id.action_signUpFragment_to_logInFragment);
             }
@@ -87,31 +91,34 @@ public class SignUpFragment extends Fragment implements SignupView{
     }
 
     @Override
-    public void OnSignupSuccess() {
-        if (rootView != null) {
-            new MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Success 🎉")
-                    .setMessage("Account created successfully")
-                    .setPositiveButton("Continue", (dialog, which) -> {
-                        NavHostFragment.findNavController(this)
-                                .navigate(R.id.action_signUpFragment_to_homeFragment);
-                    })
-                    .show();
-        }
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        btnSignup.setEnabled(false);
     }
 
     @Override
-    public void onSignupFailure(String errorMessage) {
-        if (errorMessage.toLowerCase().contains("email")) {
-            email.setError(errorMessage);
-        } else if (errorMessage.toLowerCase().contains("password")) {
-            password.setError(errorMessage);
-        } else {
-            new MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Signup Failed")
-                    .setMessage(errorMessage)
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+        btnSignup.setEnabled(true);
+    }
+
+    @Override
+    public void onSignUpSuccess() {
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_signUpFragment_to_homeFragment);
+    }
+
+    @Override
+    public void onSignUpFailure(String message) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNoInternet() {
+        Snackbar.make(requireView(),
+                        "No internet connection",
+                        Snackbar.LENGTH_INDEFINITE)
+                .setAction("Retry", v -> btnSignup.performClick())
+                .show();
     }
 }
