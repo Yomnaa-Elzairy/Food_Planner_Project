@@ -21,4 +21,9 @@
     <string name="profile">Profile</string>
     <string name="categories">Categories</string>
     <string name="category">Category</string>
+    <string name="discovery_search"><![CDATA[Discovery & Search]]></string>
+    <string name="ingredients">Ingredients</string>
+    <string name="country">Country</string>
+    <string name="smart_search">Smart Search</string>
+    <string name="daily_inspiration">Daily Inspiration</string>
 </resources>
