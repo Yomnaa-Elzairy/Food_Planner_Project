@@ -41,5 +41,19 @@
         <action
             android:id="@+id/action_searchFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_search_fragment_to_mealDetails"
+            app:destination="@id/mealDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealDetails"
+        android:name="com.example.foodplannerproject.presentation.mealDetails.view.MealDetails"
+        android:label="MealDetails" >
+        <action
+            android:id="@+id/action_mealDetails_to_search_fragment"
+            app:destination="@id/search_fragment" />
+        <argument
+            android:name="mealId"
+            app:argType="string" />
     </fragment>
 </navigation>

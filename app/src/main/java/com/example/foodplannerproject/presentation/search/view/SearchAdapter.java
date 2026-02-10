@@ -20,6 +20,10 @@ import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
     List<SearchMeal> meals = new ArrayList<>();
+    private OnMealClickListener listener;
+    public SearchAdapter(OnMealClickListener listener) {
+        this.listener = listener;
+    }
 
     public void setMeals(List<SearchMeal> meals) {
         this.meals = meals;
@@ -52,6 +56,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         Glide.with(holder.itemView.getContext())
                 .load(meal.getImage())
                 .into(holder.image);
+        holder.itemView.setOnClickListener(v -> {
+            listener.onMealClick(meal.getId());
+        });
 
     }
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,10 +19,10 @@ import com.example.foodplannerproject.data.meal.model.Meal;
 import com.example.foodplannerproject.data.search.model.SearchMeal;
 import com.example.foodplannerproject.presentation.search.presenter.SearchPresenter;
 import com.example.foodplannerproject.presentation.search.presenter.SearchPresenterImp;
-
+import com.example.foodplannerproject.presentation.search.view.SearchFragmentDirections;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements SearchView {
+public class SearchFragment extends Fragment implements SearchView ,OnMealClickListener{
 
     RecyclerView recyclerView;
     SearchAdapter adapter;
@@ -39,7 +40,7 @@ public class SearchFragment extends Fragment implements SearchView {
         recyclerView = view.findViewById(R.id.recyclerRecipes);
         progressBar = view.findViewById(R.id.progressBar); // add in xml if not exists
 
-        adapter = new SearchAdapter();
+        adapter = new SearchAdapter(this::onMealClick);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
@@ -78,5 +79,13 @@ public class SearchFragment extends Fragment implements SearchView {
     @Override
     public void showNoInternet() {
         Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMealClick(String id) {
+        SearchFragmentDirections.ActionSearchFragmentToMealDetails action =
+                SearchFragmentDirections.actionSearchFragmentToMealDetails(id);
+
+        NavHostFragment.findNavController(this).navigate(action);
     }
 }

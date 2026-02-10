@@ -18,4 +18,6 @@ public interface ApiService {
     Call<SearchResponse> searchByFilter( @Query("i") String ingredient,
                                          @Query("c") String category,
                                          @Query("a") String area);
+    @GET("lookup.php")
+    Call<MealResponse> getMealByID(@Query("i") String id);
 }
