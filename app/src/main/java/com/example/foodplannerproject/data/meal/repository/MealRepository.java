@@ -15,4 +15,7 @@ public class MealRepository {
         mealRemoteDataSource.getRandomMeal(callback);
 
     }
+    public void getMealById(String id, MealRemoteResponse<Meal> callback){
+        mealRemoteDataSource.getMealBId(id,callback);
+    }
 }

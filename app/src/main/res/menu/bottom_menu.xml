@@ -6,6 +6,10 @@
     <item android:id="@+id/search_fragment"
         android:title="@string/search"
         android:icon="@drawable/ic_search"/>
+    <item
+        android:id="@+id/plannerFragment"
+        android:icon="@drawable/ic_planner"
+        android:title="@string/planner"/>
 
     <item android:id="@+id/fav_fragment"
         android:title="@string/favorites"

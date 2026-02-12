@@ -35,4 +35,21 @@ public class MealRemoteDataSource {
             }
         });
     }
+    public void getMealBId(String id,MealRemoteResponse<Meal> callback){
+        mealApiService.getMealByID(id).enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if(response.isSuccessful()){
+                    Meal meal = response.body().getMeals().get(0);
+                    callback.onSuccess(meal);
+                }
+                else callback.onFailure("No meal found");
+            }
+
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
 }
