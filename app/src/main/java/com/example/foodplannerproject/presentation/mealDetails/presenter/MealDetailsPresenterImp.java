@@ -2,6 +2,8 @@ package com.example.foodplannerproject.presentation.mealDetails.presenter;
 
 import android.content.Context;
 
+import com.example.foodplannerproject.data.favorite.model.FavoriteMeal;
+import com.example.foodplannerproject.data.favorite.repository.FavoriteRepository;
 import com.example.foodplannerproject.data.meal.data_source.MealRemoteResponse;
 import com.example.foodplannerproject.data.meal.model.Meal;
 import com.example.foodplannerproject.data.meal.repository.MealRepository;
@@ -13,16 +15,19 @@ import com.example.foodplannerproject.presentation.mealDetails.view.MealDetailsV
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MealDetailsPresenterImp implements MealDetailsPresenter{
+public  class MealDetailsPresenterImp implements MealDetailsPresenter{
     private MealRepository mealRepository;
     private MealDetailsView mealDetailsView;
     private PlannerRepository plannerRepository;
+    private FavoriteRepository favoriteRepository;
     private Context context;
+
 
 
     public MealDetailsPresenterImp(MealDetailsView mealDetailsView, Context context) {
         this.mealRepository = new MealRepository();
         this.plannerRepository = new PlannerRepository(context);
+        this.favoriteRepository =  new FavoriteRepository(context);
         this.mealDetailsView = mealDetailsView;
         this.context =context;
     }
@@ -61,6 +66,54 @@ public class MealDetailsPresenterImp implements MealDetailsPresenter{
                 () -> mealDetailsView.showMessage("Added to planner"),
                 e -> mealDetailsView.showError("Failed to add")
         );
+    }
+
+    @Override
+    public void addToFavorite(FavoriteMeal meal) {
+        favoriteRepository.insertFavoriteMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        () -> mealDetailsView.onMealAddedToFavorite(),
+                        throwable -> mealDetailsView.showError(throwable.getMessage())
+                );
+    }
+
+    @Override
+    public void checkIfFavorite(String mealId) {
+        favoriteRepository.getMealById(mealId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        meal -> mealDetailsView.showFavoriteState(true),   // exists
+                        throwable -> mealDetailsView.showError(throwable.getMessage()),
+                        () -> mealDetailsView.showFavoriteState(false)     // not found
+                );
+    }
+
+    // ✅ toggle add/remove
+    @Override
+    public void toggleFavorite(FavoriteMeal meal) {
+        favoriteRepository.getMealById(meal.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        existingMeal -> {
+                            // already favorite → remove
+                            favoriteRepository.deleteFavoriteMeal(existingMeal)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(() -> mealDetailsView.onMealRemovedFromFavorite());
+                        },
+                        throwable -> mealDetailsView.showError(throwable.getMessage()),
+                        () -> {
+                            // not favorite → insert
+                            favoriteRepository.insertFavoriteMeal(meal)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(() -> mealDetailsView.onMealAddedToFavorite());
+                        }
+                );
     }
 
 }

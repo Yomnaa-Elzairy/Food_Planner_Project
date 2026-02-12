@@ -12,4 +12,7 @@ public interface MealDetailsView {
     void showError(String message);
     void showNoInternet();
     void getMealById(Meal meal);
+    void showFavoriteState(boolean isFavorite);
+    void onMealAddedToFavorite();
+    void onMealRemovedFromFavorite();
 }
