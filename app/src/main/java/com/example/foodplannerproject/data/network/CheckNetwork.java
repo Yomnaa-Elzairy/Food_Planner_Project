@@ -10,6 +10,6 @@ public class CheckNetwork {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager)  context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-        return activeNetwork !=null && activeNetwork.isConnected();
+        return activeNetwork !=null && activeNetwork.isConnectedOrConnecting();
     }
 }
