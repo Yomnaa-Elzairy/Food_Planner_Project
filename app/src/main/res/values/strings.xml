@@ -29,4 +29,6 @@
     <string name="search_recipes_ingredients">Search recipes, ingredients...</string>
     <string name="meal_name">Meal Name</string>
     <string name="planner">Planner</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="my_favorite_meals">Favorite Meals </string>
 </resources>

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodplannerproject.R;
+import com.example.foodplannerproject.data.favorite.model.FavoriteMeal;
 import com.example.foodplannerproject.data.meal.model.Meal;
 import com.example.foodplannerproject.presentation.meal.view.IngredientAdapter;
 import com.example.foodplannerproject.presentation.mealDetails.presenter.MealDetailsPresenterImp;
@@ -34,6 +35,7 @@ public class MealDetails extends Fragment implements MealDetailsView {
     private TextView mealName;
     private Meal currentMeal;
     private FloatingActionButton addToPlanner;
+    private FloatingActionButton addToFavorite;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -44,6 +46,7 @@ public class MealDetails extends Fragment implements MealDetailsView {
         rvSteps = view.findViewById(R.id.rvSteps);
         mealName =view.findViewById(R.id.mealName);
         addToPlanner = view.findViewById(R.id.fabPlanner);
+        addToFavorite = view .findViewById(R.id.fabFavorite);
 
         ingredientAdapter = new IngredientAdapter();
         stepsAdapter = new StepsAdapter();
@@ -58,13 +61,25 @@ public class MealDetails extends Fragment implements MealDetailsView {
 
         presenter = new MealDetailsPresenterImp(this,requireContext());
 
-        // ✅ SafeArgs: get mealId
         MealDetailsArgs args = MealDetailsArgs.fromBundle(getArguments());
         String mealId = args.getMealId();
 
         presenter.getMealDetailsById(mealId);
         addToPlanner.setOnClickListener(v->
                 showDatePicker());
+
+        addToFavorite.setOnClickListener(
+                v -> {
+
+                    FavoriteMeal favoriteMeal = new FavoriteMeal(
+                            currentMeal.getId(),
+                            currentMeal.getImage(),
+                            currentMeal.getName()
+                    );
+
+                    presenter.toggleFavorite(favoriteMeal);
+                }
+        );
 
         return view;
     }
@@ -104,7 +119,31 @@ public class MealDetails extends Fragment implements MealDetailsView {
         mealName.setText(meal.getName());
         ingredientAdapter.setList(meal.getIngredientList());
         stepsAdapter.setList(meal.getInstructionSteps());
+        presenter.checkIfFavorite(meal.getId());
     }
+
+    @Override
+    public void showFavoriteState(boolean isFavorite) {
+        if (isFavorite) {
+            addToFavorite.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            addToFavorite.setImageResource(R.drawable.ic_fav);
+        }
+    }
+
+    @Override
+    public void onMealAddedToFavorite() {
+        addToFavorite.setImageResource(R.drawable.ic_favorite_filled);
+        Toast.makeText(getContext(), "Added to favorites ❤️", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMealRemovedFromFavorite() {
+        addToFavorite.setImageResource(R.drawable.ic_fav);
+        Toast.makeText(getContext(), "Removed from favorites 💔", Toast.LENGTH_SHORT).show();
+    }
+
+
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
 
@@ -124,7 +163,7 @@ public class MealDetails extends Fragment implements MealDetailsView {
                             selectedDay
                     );
 
-                    presenter.addToPlanner(currentMeal, date); // 👈 send to presenter
+                    presenter.addToPlanner(currentMeal, date);
                 },
                 year, month, day
         );
