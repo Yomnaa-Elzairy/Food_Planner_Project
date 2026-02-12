@@ -16,8 +16,8 @@ public class PlannerLocalDataSource {
 
     private PlannerDao dao;
 
-    public PlannerLocalDataSource(PlannerDao dao) {
-        this.dao = dao;
+    public PlannerLocalDataSource(Context context) {
+        this.dao = AppDatabase.getInstance(context).PlannerDao();
     }
 
     public Completable insertMeal(PlannerMeal meal) {

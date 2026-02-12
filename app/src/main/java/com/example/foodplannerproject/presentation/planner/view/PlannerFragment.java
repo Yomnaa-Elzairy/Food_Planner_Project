@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import com.example.foodplannerproject.data.planner.model.PlannerMeal;
 import com.example.foodplannerproject.data.planner.repository.PlannerRepository;
 import com.example.foodplannerproject.presentation.planner.model.DayGroup;
 import com.example.foodplannerproject.presentation.planner.presenter.PlannerPresenter;
-import com.example.foodplannerproject.presentation.planner.presenter.PlannerPresenterImpl;
+import com.example.foodplannerproject.presentation.planner.presenter.PlannerPresenterImp;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -45,14 +46,7 @@ public class PlannerFragment extends Fragment implements PlannerView {
         adapter = new DayAdapter();
         rv.setAdapter(adapter);
 
-        PlannerDao dao = AppDatabase.getInstance(requireContext()).PlannerDao();
-
-        PlannerRepository repo = new PlannerRepository(
-                new PlannerLocalDataSource(dao),
-                new PlannerRemoteDataSource()
-        );
-
-        presenter = new PlannerPresenterImpl(this, repo,requireContext());
+        presenter = new PlannerPresenterImp(this,requireContext());
 
         return view;
     }
@@ -61,6 +55,7 @@ public class PlannerFragment extends Fragment implements PlannerView {
     public void onResume() {
         super.onResume();
         boolean isOnline = CheckNetwork.isConnected(requireContext());
+        Log.d("online","isOnline= "+ isOnline);
         presenter.loadPlanner(isOnline);
     }
 

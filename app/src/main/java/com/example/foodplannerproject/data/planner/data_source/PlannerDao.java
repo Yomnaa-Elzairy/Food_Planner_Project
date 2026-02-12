@@ -19,10 +19,10 @@ public interface PlannerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Completable insertMeal(PlannerMeal meal);
 
-    @Query("SELECT * FROM planner_meals ORDER BY date")
+    @Query("SELECT * FROM planner_meals ORDER BY date Asc")
     Flowable<List<PlannerMeal>> getAllMeals();
 
-    @Query("SELECT * FROM planner_meals WHERE date BETWEEN :start AND :end ORDER BY date")
+    @Query("SELECT * FROM planner_meals WHERE date BETWEEN :start AND :end ORDER BY date Asc")
     Flowable<List<PlannerMeal>> getMealsForWeek(String start, String end);
 
     @Delete

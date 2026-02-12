@@ -53,10 +53,16 @@ dependencies {
     implementation(libs.converter.gson)
     val room_version = "2.8.4"
 
+
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
+
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation("io.reactivex.rxjava3:rxjava:3.1.6")
+
+    implementation("androidx.room:room-rxjava3:$room_version")
+
+    implementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
     implementation("com.google.firebase:firebase-firestore")
 
 

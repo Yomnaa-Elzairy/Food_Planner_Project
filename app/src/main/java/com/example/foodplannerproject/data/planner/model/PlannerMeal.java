@@ -2,6 +2,7 @@ package com.example.foodplannerproject.data.planner.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "planner_meals")
@@ -16,12 +17,26 @@ public class PlannerMeal {
     private String image;
     private String date; // yyyy-MM-dd
 
-    public PlannerMeal(String idMeal, String name, String thumb, String date) {
+    public PlannerMeal(@NonNull String key,
+                       String idMeal,
+                       String name,
+                       String image,
+                       String date) {
+        this.key = key;
         this.idMeal = idMeal;
         this.name = name;
-        this.image = thumb;
+        this.image = image;
         this.date = date;
+    }
+
+    // helper constructor (not used by Room)
+    @Ignore
+    public PlannerMeal(String idMeal, String name, String image, String date) {
         this.key = idMeal + "_" + date;
+        this.idMeal = idMeal;
+        this.name = name;
+        this.image = image;
+        this.date = date;
     }
 
     public String getKey() { return key; }

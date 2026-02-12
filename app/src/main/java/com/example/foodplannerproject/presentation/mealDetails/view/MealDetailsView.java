@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface MealDetailsView {
     void showLoading();
+    void showMessage(String msg);
     void hideLoading();
     void showError(String message);
     void showNoInternet();
