@@ -1,5 +1,7 @@
 package com.example.foodplannerproject.data.meal.data_source;
 
+import android.net.Uri;
+
 import com.example.foodplannerproject.data.meal.model.Meal;
 import com.example.foodplannerproject.data.meal.model.MealResponse;
 import com.example.foodplannerproject.data.network.ApiService;
@@ -11,6 +13,7 @@ import retrofit2.Response;
 
 public class MealRemoteDataSource {
     private ApiService mealApiService;
+
 
     public MealRemoteDataSource() {
         mealApiService = RetrofitClient.getInstance()

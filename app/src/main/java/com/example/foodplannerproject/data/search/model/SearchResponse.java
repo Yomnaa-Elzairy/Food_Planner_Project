@@ -7,9 +7,9 @@ import java.util.List;
 
 public class SearchResponse {
     @SerializedName("meals")
-    private List<SearchMeal> meals;
+    private List<Meal> meals;
 
-    public List<SearchMeal> getMeals() {
+    public List<Meal> getMeals() {
         return meals;
     }
 }

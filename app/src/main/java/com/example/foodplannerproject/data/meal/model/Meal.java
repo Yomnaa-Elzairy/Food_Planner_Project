@@ -1,5 +1,9 @@
 package com.example.foodplannerproject.data.meal.model;
 
+import android.net.Uri;
+
+import com.example.foodplannerproject.data.meal.data_source.MealRemoteDataSource;
+import com.example.foodplannerproject.data.search.model.Ingredient;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -108,6 +112,8 @@ public class Meal {
 
     public List<Ingredients> getIngredientList() {
         List<Ingredients> list = new ArrayList<>();
+         final String INGREDIENT_IMAGE_BASE_URL =
+                "https://www.themealdb.com/images/ingredients/";
 
         String[] ingredients = {
                 ingredient1, ingredient2, ingredient3, ingredient4, ingredient5,
@@ -125,7 +131,10 @@ public class Meal {
 
         for (int i = 0; i < ingredients.length; i++) {
             if (ingredients[i] != null && !ingredients[i].trim().isEmpty()) {
-                list.add(new Ingredients(ingredients[i], measures[i]));
+                String imageUrl = INGREDIENT_IMAGE_BASE_URL
+                        + Uri.encode(ingredients[i].trim())
+                        + ".png";
+                list.add(new Ingredients(ingredients[i], measures[i],imageUrl));
             }
         }
 

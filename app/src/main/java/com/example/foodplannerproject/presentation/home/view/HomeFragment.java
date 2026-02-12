@@ -48,9 +48,10 @@ public class HomeFragment extends Fragment implements HomeView {
         progressBar = new ProgressBar(requireContext());
         categoryAdapter = new CategoryAdapter();
         categoryRecycler.setLayoutManager(
-                new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+                new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         categoryRecycler.setAdapter(categoryAdapter);
-        ((ViewGroup) view).addView(progressBar);
+//        categoryRecycler.setNestedScrollingEnabled(false);
+        progressBar = view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
         homePresenter = new HomePresenterImp(this);

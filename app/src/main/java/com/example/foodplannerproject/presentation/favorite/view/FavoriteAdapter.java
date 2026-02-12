@@ -60,8 +60,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 
         ViewHolder(View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.txtCategoryName);
-            image = itemView.findViewById(R.id.imgCategory);
+            name = itemView.findViewById(R.id.txtMealName);
+            image = itemView.findViewById(R.id.imgMeal);
         }
     }
 }

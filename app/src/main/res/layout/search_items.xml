@@ -6,51 +6,28 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="4dp"
-    android:clickable="true"
-    android:focusable="true"
-    >
+    app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- IMAGE CONTAINER -->
-        <FrameLayout
+        <ImageView
+            android:id="@+id/imgMeal"
             android:layout_width="match_parent"
-            android:layout_height="180dp">
+            android:layout_height="150dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"/>
 
-            <!-- Meal Image -->
-            <ImageView
-                android:id="@+id/imgCategory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
-
-            <!-- Heart icon -->
-            <ImageView
-                android:id="@+id/imgFav"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="top|end"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_fav"
-                android:backgroundTint="@android:color/white"/>
-
-        </FrameLayout>
-
-        <!-- Meal name -->
         <TextView
-            android:id="@+id/txtCategoryName"
+            android:id="@+id/txtMealName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:padding="8dp"
-            android:text="@string/meal_name"
-            android:textSize="16sp"
+            android:text="Meal Name"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:maxLines="2"
             android:ellipsize="end"/>
 

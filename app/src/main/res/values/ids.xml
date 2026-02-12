@@ -2,4 +2,5 @@
 <resources>
     <item name="mealImage" type="id" />
     <item name="favIcon" type="id" />
+    <item name="txtFilterName" type="id" />
 </resources>

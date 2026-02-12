@@ -1,45 +1,46 @@
 package com.example.foodplannerproject.data.search.data_source;
 
+import com.example.foodplannerproject.data.category.model.CategoryResponse;
 import com.example.foodplannerproject.data.network.ApiService;
 import com.example.foodplannerproject.data.network.RetrofitClient;
-import com.example.foodplannerproject.data.search.model.SearchItem;
-import com.example.foodplannerproject.data.search.model.SearchMeal;
+import com.example.foodplannerproject.data.search.model.AreaResponse;
+import com.example.foodplannerproject.data.search.model.FilterResponse;
+import com.example.foodplannerproject.data.search.model.IngredientResponse;
 import com.example.foodplannerproject.data.search.model.SearchResponse;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.rxjava3.core.Single;
 
 public class SearchRemoteDataSource {
-        private ApiService apiService;
+
+    private final ApiService apiService;
 
     public SearchRemoteDataSource() {
-        apiService= RetrofitClient.getInstance()
-                .create(ApiService.class);
+        apiService = RetrofitClient.getInstance()
+                .create(ApiService.class);;
     }
 
-    public void searchByFilter(String filterType,String userInput, SearchRemoteResponse<SearchMeal> callback){
-       Call<SearchResponse> call;
-       if(filterType.equals("i"))
-           call = apiService.searchByFilter(userInput,null,null);
-       else if(filterType.equals("c"))
-           call = apiService.searchByFilter(null,userInput,null);
-       else
-           call = apiService.searchByFilter(null,null,userInput);
-
-       call.enqueue(new Callback<SearchResponse>() {
-           @Override
-           public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-               if (response.isSuccessful() && response.body() != null) {
-                   callback.onSuccess(response.body().getMeals());
-               }
-           }
-
-           @Override
-           public void onFailure(Call<SearchResponse> call, Throwable t) {
-               callback.onFailure(t.getMessage());
-           }
-       });
+    public Single<SearchResponse> searchByName(String name) {
+        return apiService.searchByName(name);
     }
 
+    public Single<AreaResponse> getAreas() {
+        return apiService.getAreas("list");
+    }
+
+    public Single<IngredientResponse> getIngredients() {
+        return apiService.getIngredients("list");
+    }
+    public Single<CategoryResponse> getCategories(){return apiService.getAllCategories();}
+
+    public Single<FilterResponse> filterByCategory(String category) {
+        return apiService.filterByCategory(category);
+    }
+
+    public Single<FilterResponse> filterByArea(String area) {
+        return apiService.filterByArea(area);
+    }
+
+    public Single<FilterResponse> filterByIngredient(String ingredient) {
+        return apiService.filterByIngredient(ingredient);
+    }
 }
