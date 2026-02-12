@@ -8,24 +8,18 @@
     android:padding="16dp">
 
     <!-- Header -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Meal Planner"
+            android:layout_gravity="center"
+            android:textColor="#627a5f"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"/>
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_input_add"
-            android:layout_alignParentEnd="true"/>
-    </RelativeLayout>
+
 
 
     <!-- RecyclerView -->

@@ -1,4 +1,4 @@
-package com.example.foodplannerproject.presentation.meal.view;
+package com.example.foodplannerproject.presentation.mealDetails.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.foodplannerproject.R;
 import com.example.foodplannerproject.data.meal.model.Ingredients;
+import com.example.foodplannerproject.data.search.model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +37,13 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         Ingredients ingredient = ingredientList.get(position);
-
         holder.tvName.setText(ingredient.getName());
-        holder.tvAmount.setText(ingredient.getMeasures());
+        holder.tvAmount.setText(ingredient.getMeasure());
 
         // optional icon (same for all)
-        holder.imgIngredient.setImageResource(R.drawable.ic_name);
+        Glide.with(holder.imgIngredient.getContext())
+                .load(ingredient.getImageUrl())
+                .into(holder.imgIngredient);
     }
 
     @Override

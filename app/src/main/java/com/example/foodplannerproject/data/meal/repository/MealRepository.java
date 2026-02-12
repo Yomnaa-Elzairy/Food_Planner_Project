@@ -18,4 +18,7 @@ public class MealRepository {
     public void getMealById(String id, MealRemoteResponse<Meal> callback){
         mealRemoteDataSource.getMealBId(id,callback);
     }
+//    public String getIngredientImage(String name){
+//        return mealRemoteDataSource.getIngredientImageUrl(name);
+//    }
 }

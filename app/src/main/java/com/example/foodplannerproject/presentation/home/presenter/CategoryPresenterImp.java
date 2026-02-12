@@ -8,9 +8,14 @@ import com.example.foodplannerproject.presentation.home.view.HomeView;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class CategoryPresenterImp implements CategoryPresenter{
     private CategoryRepository categoryRepository;
     private HomeView homeView;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public CategoryPresenterImp(HomeView homeView) {
         this.categoryRepository = new CategoryRepository();
@@ -19,24 +24,22 @@ public class CategoryPresenterImp implements CategoryPresenter{
 
     @Override
     public void getAllCategories() {
-        categoryRepository.getAllCategories(new CategoryRemoteResponse<Category>() {
-            @Override
-            public void onSuccess(List<Category> data) {
-                homeView.hideLoading();
-                homeView.showAllCategories(data);
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                homeView.hideLoading();
-                homeView.showError(msg);
-            }
-
-            @Override
-            public void onNoInternet() {
-                homeView.hideLoading();
-                homeView.showNoInternet();
-            }
-        });
+        homeView.showLoading();
+        compositeDisposable.add(
+                categoryRepository.getCategories()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                categories -> {
+                                    homeView.hideLoading();
+                                    homeView.showAllCategories(categories);
+                                },
+                                throwable -> {
+                                    homeView.hideLoading();
+                                    homeView.showError(throwable.getMessage());
+                                }
+                        )
+        );
     }
+
 }

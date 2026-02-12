@@ -2,15 +2,24 @@ package com.example.foodplannerproject.presentation.mealDetails.presenter;
 
 import android.content.Context;
 
+import com.example.foodplannerproject.R;
 import com.example.foodplannerproject.data.favorite.model.FavoriteMeal;
 import com.example.foodplannerproject.data.favorite.repository.FavoriteRepository;
 import com.example.foodplannerproject.data.meal.data_source.MealRemoteResponse;
+import com.example.foodplannerproject.data.meal.model.Ingredients;
 import com.example.foodplannerproject.data.meal.model.Meal;
+import com.example.foodplannerproject.data.meal.model.MealResponse;
 import com.example.foodplannerproject.data.meal.repository.MealRepository;
 import com.example.foodplannerproject.data.network.CheckNetwork;
 import com.example.foodplannerproject.data.planner.model.PlannerMeal;
 import com.example.foodplannerproject.data.planner.repository.PlannerRepository;
 import com.example.foodplannerproject.presentation.mealDetails.view.MealDetailsView;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -39,7 +48,7 @@ public  class MealDetailsPresenterImp implements MealDetailsPresenter{
             public void onSuccess(Meal data) {
                 mealDetailsView.hideLoading();
                 mealDetailsView.getMealById(data);
-
+                mealDetailsView.showMealVideo(getYouTubeId(data.getVideo()));
             }
 
             @Override
@@ -91,7 +100,6 @@ public  class MealDetailsPresenterImp implements MealDetailsPresenter{
                 );
     }
 
-    // ✅ toggle add/remove
     @Override
     public void toggleFavorite(FavoriteMeal meal) {
         favoriteRepository.getMealById(meal.getId())
@@ -114,6 +122,15 @@ public  class MealDetailsPresenterImp implements MealDetailsPresenter{
                                     .subscribe(() -> mealDetailsView.onMealAddedToFavorite());
                         }
                 );
+
     }
 
+    private String getYouTubeId(String url) {
+        Pattern pattern = Pattern.compile("v=([a-zA-Z0-9_-]+)");
+        Matcher matcher = pattern.matcher(url);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
 }

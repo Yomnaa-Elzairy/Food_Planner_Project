@@ -17,11 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.foodplannerproject.R;
 import com.example.foodplannerproject.data.favorite.model.FavoriteMeal;
 import com.example.foodplannerproject.data.meal.model.Meal;
-import com.example.foodplannerproject.presentation.meal.view.IngredientAdapter;
 import com.example.foodplannerproject.presentation.mealDetails.presenter.MealDetailsPresenterImp;
 import com.example.foodplannerproject.presentation.mealDetails.view.StepsAdapter;
 import com.example.foodplannerproject.presentation.mealDetails.presenter.MealDetailsPresenter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -36,6 +38,8 @@ public class MealDetails extends Fragment implements MealDetailsView {
     private Meal currentMeal;
     private FloatingActionButton addToPlanner;
     private FloatingActionButton addToFavorite;
+    private YouTubePlayerView playerView;
+    private YouTubePlayer myYouTubePlayer = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -47,6 +51,12 @@ public class MealDetails extends Fragment implements MealDetailsView {
         mealName =view.findViewById(R.id.mealName);
         addToPlanner = view.findViewById(R.id.fabPlanner);
         addToFavorite = view .findViewById(R.id.fabFavorite);
+        playerView = view.findViewById(R.id.playerView);
+        playerView.setOnClickListener(v -> {
+            if (myYouTubePlayer != null) {
+                myYouTubePlayer.play();
+            }
+        });
 
         ingredientAdapter = new IngredientAdapter();
         stepsAdapter = new StepsAdapter();
@@ -141,6 +151,20 @@ public class MealDetails extends Fragment implements MealDetailsView {
     public void onMealRemovedFromFavorite() {
         addToFavorite.setImageResource(R.drawable.ic_fav);
         Toast.makeText(getContext(), "Removed from favorites 💔", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMealVideo(String videoId) {
+        playerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                myYouTubePlayer = youTubePlayer;
+
+                if (videoId != null && !videoId.isEmpty()) {
+                    youTubePlayer.cueVideo(videoId, 0);
+                }
+            }
+        });
     }
 
 

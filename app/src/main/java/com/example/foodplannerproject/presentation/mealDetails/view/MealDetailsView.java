@@ -1,9 +1,6 @@
 package com.example.foodplannerproject.presentation.mealDetails.view;
 
 import com.example.foodplannerproject.data.meal.model.Meal;
-import com.example.foodplannerproject.data.search.model.SearchMeal;
-
-import java.util.List;
 
 public interface MealDetailsView {
     void showLoading();
@@ -15,4 +12,5 @@ public interface MealDetailsView {
     void showFavoriteState(boolean isFavorite);
     void onMealAddedToFavorite();
     void onMealRemovedFromFavorite();
+    void showMealVideo(String videoId);
 }
